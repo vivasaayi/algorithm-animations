@@ -7,6 +7,8 @@ Existing
 - [x] 2) Selection Sort – crate: bevy-selection-sort
 - [x] 3) Insertion Sort – crate: bevy-insertion-sort
 - [x] 4) Cocktail Shaker Sort – crate: bevy-cocktail-sort
+- [x] 5) Gnome Sort – crate: bevy-gnome-sort
+- [x] 6) Shell Sort – crate: bevy-shell-sort
 - [x] 46) BST Search – crate: bevy-bst
 - [x] 61) BFS (grid) – crate: bevy-bfs
 
@@ -24,10 +26,10 @@ Tracker (first 25 entries shown; continue for all 100)
 | 2 | Selection Sort | bevy-selection-sort | x | N=10 | Added |
 | 3 | Insertion Sort | bevy-insertion-sort | x | N=10 | Added |
 | 4 | Cocktail Shaker Sort | bevy-cocktail-sort | x | N=12 | Added |
-| 5 | Gnome Sort | bevy-gnome-sort |  | N=12 |  |
-| 6 | Shell Sort | bevy-shell-sort |  | N=20 | gaps: N/2 -> 1 |
-| 7 | Merge Sort | bevy-merge-sort |  | N=16 | top-down |
-| 8 | Quick Sort (Lomuto) | bevy-quicksort-lomuto |  | N=16 |  |
+| 5 | Gnome Sort | bevy-gnome-sort | x | N=12 | Added |
+| 6 | Shell Sort | bevy-shell-sort | x | N=20 | gaps: N/2 -> 1 |
+| 7 | Merge Sort | bevy-merge-sort | x | N=16 | bottom-up runs |
+| 8 | Quick Sort (Lomuto) | bevy-quicksort-lomuto | ~ | N=16 | visual partition |
 | 9 | Quick Sort (Hoare) | bevy-quicksort-hoare |  | N=16 |  |
 | 10 | Heap Sort | bevy-heap-sort |  | N=16 | heapify + pop |
 | 11 | Counting Sort | bevy-counting-sort |  | N<=20 | small domain |
