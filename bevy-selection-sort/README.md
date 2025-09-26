@@ -1,0 +1,1 @@
+Selection Sort visualization in Bevy 0.14 (auto/manual, pre-swap highlight, and targeted swaps).
