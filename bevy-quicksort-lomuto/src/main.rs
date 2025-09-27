@@ -27,9 +27,6 @@ struct State {
     j: usize,
     // data
     a: [usize; N],
-    // staging
-    pivot_e: Option<Entity>,
-    swap: Option<(usize, usize)>,
     running: bool,
     done: bool,
     active: bool,
@@ -60,15 +57,15 @@ fn setup(mut commands: Commands, mut st: ResMut<State>) {
         let id = commands.spawn((SpriteBundle { sprite: Sprite { color, custom_size: Some(Vec2::new(BAR_WIDTH, h)), ..default() }, transform: Transform::from_xyz(x, h/2.0 - 200.0, 0.0), ..default() }, Bar { idx: idx, val: v }, TargetX(x))).id();
         commands.entity(id).with_children(|p| spawn_value_digits(p, v, h/2.0 + 12.0, Color::WHITE));
     }
-    st.stack.clear(); st.stack.push((0, N-1)); st.running=true; st.done=false;
-    st.lo=0; st.hi=N-1; st.i=0; st.j=0; st.swap=None; st.pivot_e=None;
+    st.stack.clear(); st.stack.push((0, N-1)); st.running=true; st.done=false; st.active=false;
+    st.lo=0; st.hi=N-1; st.i=0; st.j=0;
 }
 
 fn x_at(i: usize, x0: f32) -> f32 { x0 + i as f32 * (BAR_WIDTH + BAR_GAP) }
 
 fn input_sys(keys: Res<ButtonInput<KeyCode>>, mouse: Res<ButtonInput<MouseButton>>, mut st: ResMut<State>, mut settings: ResMut<Settings>, layout: Res<Layout>, mut bars: Query<(Entity, &mut Bar, &mut Sprite, &mut Transform, &mut TargetX, &Children)>, digits_q: Query<&ValueDigits>, mut commands: Commands) {
     if keys.just_pressed(KeyCode::Space) || mouse.just_pressed(MouseButton::Left) {
-        if st.done { let mut vals: Vec<usize> = (1..=N).collect(); vals.as_mut_slice().shuffle(&mut rand::thread_rng()); for (k,v) in vals.iter().enumerate() { st.a[k] = *v; } st.stack=vec![(0,N-1)]; st.lo=0; st.hi=N-1; st.i=0; st.j=0; st.swap=None; st.running=true; st.done=false; let mut rep: Vec<(Entity, Entity, usize, f32)>=Vec::new(); let mut raw: Vec<(Entity, Vec<Entity>, usize, f32)>=Vec::new(); for (e, mut bar, mut sp, mut tf, mut tx, children) in bars.iter_mut(){ let idx=bar.idx; let v=st.a[idx]; bar.val=v; let h=v as f32/N as f32*MAX_HEIGHT+10.0; sp.custom_size=Some(Vec2::new(BAR_WIDTH,h)); sp.color=Color::hsl((v as f32/N as f32)*300.0,0.7,0.5); let x=x_at(idx, layout.x0); tx.0=x; tf.translation=Vec3::new(x,h/2.0-200.0,0.0); raw.push((e,children.to_vec(),v,h/2.0+12.0)); } for (p, children, v, y) in raw { for c in children { if digits_q.get(c).is_ok() { rep.push((p,c,v,y)); } } } for (p, c, v, y) in rep { commands.entity(c).despawn_recursive(); commands.entity(p).with_children(|x| spawn_value_digits(x,v,y,Color::WHITE)); }} else { if settings.auto { st.running = !st.running; } else { settings.manual_step = true; } }
+    if st.done { let mut vals: Vec<usize> = (1..=N).collect(); vals.as_mut_slice().shuffle(&mut rand::thread_rng()); for (k,v) in vals.iter().enumerate() { st.a[k] = *v; } st.stack=vec![(0,N-1)]; st.lo=0; st.hi=N-1; st.i=0; st.j=0; st.running=true; st.done=false; st.active=false; let mut rep: Vec<(Entity, Entity, usize, f32)>=Vec::new(); let mut raw: Vec<(Entity, Vec<Entity>, usize, f32)>=Vec::new(); for (e, mut bar, mut sp, mut tf, mut tx, children) in bars.iter_mut(){ let idx=bar.idx; let v=st.a[idx]; bar.val=v; let h=v as f32/N as f32*MAX_HEIGHT+10.0; sp.custom_size=Some(Vec2::new(BAR_WIDTH,h)); sp.color=Color::hsl((v as f32/N as f32)*300.0,0.7,0.5); let x=x_at(idx, layout.x0); tx.0=x; tf.translation=Vec3::new(x,h/2.0-200.0,0.0); raw.push((e,children.to_vec(),v,h/2.0+12.0)); } for (p, children, v, y) in raw { for c in children { if digits_q.get(c).is_ok() { rep.push((p,c,v,y)); } } } for (p, c, v, y) in rep { commands.entity(c).despawn_recursive(); commands.entity(p).with_children(|x| spawn_value_digits(x,v,y,Color::WHITE)); }} else { if settings.auto { st.running = !st.running; } else { settings.manual_step = true; } }
     }
 }
 
@@ -83,31 +80,36 @@ fn step(mut st: ResMut<State>, mut settings: ResMut<Settings>, layout: Res<Layou
 
     // Initialize a partition if needed
     if !st.active {
-        if let Some((lo, hi)) = st.stack.pop() {
-            st.lo = lo; st.hi = hi; st.i = lo; st.j = lo; st.active = true;
-        } else {
+        while let Some((lo, hi)) = st.stack.pop() {
+            if lo < hi {
+                st.lo = lo; st.hi = hi; st.i = lo; st.j = lo; st.active = true;
+                break;
+            }
+        }
+        if !st.active {
             st.done = true; st.running = false; if !settings.auto { settings.manual_step = false; } return;
         }
     }
 
     let (lo, hi) = (st.lo, st.hi);
-    if lo >= hi { st.stack.pop(); st.i = 0; st.j = 0; if !settings.auto { settings.manual_step = false; } return; }
     let pivot = st.a[hi];
 
     // If finished scan, place pivot
     if st.j >= hi {
         // swap a[i] and a[hi]
         let i0 = st.i; let hi0 = hi;
-        st.a.swap(i0, hi0);
-        // retarget bars for i and hi (swap their indices and update values)
-        for (mut bar, mut tx) in q.iter_mut(){
-            if bar.idx == i0 { bar.idx = hi0; bar.val = st.a[hi0]; tx.0 = x_at(hi0, layout.x0); }
-            else if bar.idx == hi0 { bar.idx = i0; bar.val = st.a[i0]; tx.0 = x_at(i0, layout.x0); }
+        if i0 != hi0 {
+            st.a.swap(i0, hi0);
+            // retarget bars for i and hi (swap their indices and update values)
+            for (mut bar, mut tx) in q.iter_mut(){
+                if bar.idx == i0 { bar.idx = hi0; bar.val = st.a[hi0]; tx.0 = x_at(hi0, layout.x0); }
+                else if bar.idx == hi0 { bar.idx = i0; bar.val = st.a[i0]; tx.0 = x_at(i0, layout.x0); }
+            }
         }
         // push subranges
         let p = i0;
         if p > lo { st.stack.push((lo, p-1)); }
-        if p < hi0 { st.stack.push((p+1, hi0)); }
+        if p + 1 <= hi0 { st.stack.push((p+1, hi0)); }
         st.i = 0; st.j = 0; st.active = false;
         if !settings.auto { settings.manual_step = false; }
         return;
@@ -140,8 +142,21 @@ fn animate(time: Res<Time>, mut q: Query<(&TargetX, &mut Transform)>) {
 fn colors(st: Res<State>, mut q: Query<(&Bar, &mut Sprite)>) {
     for (bar, mut sp) in q.iter_mut(){
         let base = Color::hsl((bar.val as f32 / N as f32)*300.0,0.7,0.5);
-        let c = if st.done { Color::srgb(0.2,0.8,0.4)} else { base };
-        sp.color = c;
+        let mut color = base;
+        if st.done {
+            color = Color::srgb(0.2, 0.8, 0.4);
+        } else if st.active {
+            if bar.idx == st.hi {
+                color = Color::srgb(1.0, 0.9, 0.2); // pivot at hi
+            } else if bar.idx == st.i {
+                color = Color::srgb(0.95, 0.4, 0.2); // partition boundary
+            } else if bar.idx == st.j && st.j < st.hi {
+                color = Color::srgb(0.2, 0.7, 1.0); // current scan
+            } else if bar.idx < st.lo || bar.idx > st.hi {
+                color = Color::srgb(0.35, 0.35, 0.35);
+            }
+        }
+        sp.color = color;
     }
 }
 

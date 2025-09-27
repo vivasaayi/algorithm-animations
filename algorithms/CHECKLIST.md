@@ -13,10 +13,10 @@ Existing
 - [x] 61) BFS (grid) – crate: bevy-bfs
 
 Queue (next up)
-- [ ] 5) Gnome Sort – crate: bevy-gnome-sort
-- [ ] 49) Level Order Traversal – crate: bevy-level-order
-- [ ] 65) Topological Sort (Kahn) – crate: bevy-toposort
-- [ ] 81) LIS (patience) – crate: bevy-lis
+- [ ] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare
+- [ ] 10) Heap Sort – crate: bevy-heap-sort
+- [ ] 11) Counting Sort – crate: bevy-counting-sort
+- [ ] 12) Radix Sort (LSD) – crate: bevy-radix-lsd
 
 Tracker (first 25 entries shown; continue for all 100)
 
@@ -29,7 +29,7 @@ Tracker (first 25 entries shown; continue for all 100)
 | 5 | Gnome Sort | bevy-gnome-sort | x | N=12 | Added |
 | 6 | Shell Sort | bevy-shell-sort | x | N=20 | gaps: N/2 -> 1 |
 | 7 | Merge Sort | bevy-merge-sort | x | N=16 | bottom-up runs |
-| 8 | Quick Sort (Lomuto) | bevy-quicksort-lomuto | ~ | N=16 | visual partition |
+| 8 | Quick Sort (Lomuto) | bevy-quicksort-lomuto | x | N=16 | partition pointers |
 | 9 | Quick Sort (Hoare) | bevy-quicksort-hoare |  | N=16 |  |
 | 10 | Heap Sort | bevy-heap-sort |  | N=16 | heapify + pop |
 | 11 | Counting Sort | bevy-counting-sort |  | N<=20 | small domain |
@@ -46,6 +46,6 @@ Tracker (first 25 entries shown; continue for all 100)
 | 22 | Three Sum | bevy-three-sum |  |  |  |
 | 23 | Interval Merge | bevy-interval-merge |  |  | sort+merge |
 | 24 | Insert Interval | bevy-insert-interval |  |  |  |
-| 25 | Rotate Array | bevy-rotate-array |  |  | three reversals |
+| 25 | Rotate Array | bevy-rotate-array | x | N=12, k=4 | three reversals |
 
 Continue the table for all 100 per CATALOG.md.
