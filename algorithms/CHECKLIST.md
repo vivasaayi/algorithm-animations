@@ -18,6 +18,12 @@ In progress
 - [~] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare (scaffold)
 - [~] 10) Heap Sort – crate: bevy-heap-sort (scaffold)
 - [~] 11) Counting Sort – crate: bevy-counting-sort (scaffold)
+- [~] 12) Radix Sort (LSD) – crate: bevy-radix-lsd (scaffold)
+- [~] 13) Bucket Sort – crate: bevy-bucket-sort (scaffold)
+- [~] 14) Dutch National Flag – crate: bevy-dnf (scaffold)
+- [~] 15) Pancake Sort – crate: bevy-pancake-sort (scaffold)
+- [~] 16) Two Sum – crate: bevy-two-sum (scaffold)
+- [~] 17) Move Zeros – crate: bevy-move-zeros (scaffold)
 - [~] 47) BST Insert/Delete – crate: bevy-bst-insert-delete (scaffold)
 - [~] 48) Validate BST – crate: bevy-bst-validate (scaffold)
 - [~] 49) Level Order Traversal – crate: bevy-level-order-bfs (scaffold)
@@ -40,7 +46,7 @@ In progress
 - [~] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
 
 Queue (next up)
-- [ ] 12) Radix Sort (LSD) – crate: bevy-radix-lsd
+- [ ] 18) Remove Duplicates – crate: bevy-remove-dups
 
 Tracker (first 25 entries shown; continue for all 100)
 
@@ -57,12 +63,12 @@ Tracker (first 25 entries shown; continue for all 100)
 | 9 | Quick Sort (Hoare) | bevy-quicksort-hoare | ~ | N=16 | scaffold |
 | 10 | Heap Sort | bevy-heap-sort | ~ | N=16 | scaffold |
 | 11 | Counting Sort | bevy-counting-sort | ~ | N<=20 | scaffold |
-| 12 | Radix Sort (LSD) | bevy-radix-lsd |  | base 10 | buckets 0..9 |
-| 13 | Bucket Sort | bevy-bucket-sort |  |  |  |
-| 14 | Dutch National Flag | bevy-dnf |  |  | 3-way partition |
-| 15 | Pancake Sort | bevy-pancake-sort |  |  | flips |
-| 16 | Two Sum | bevy-two-sum |  | N=10 | progressive insert |
-| 17 | Move Zeros | bevy-move-zeros |  |  | stable compaction |
+| 12 | Radix Sort (LSD) | bevy-radix-lsd | ~ | base 10 | scaffold |
+| 13 | Bucket Sort | bevy-bucket-sort | ~ |  | scaffold |
+| 14 | Dutch National Flag | bevy-dnf | ~ |  | scaffold |
+| 15 | Pancake Sort | bevy-pancake-sort | ~ |  | scaffold |
+| 16 | Two Sum | bevy-two-sum | ~ | N=10 | scaffold |
+| 17 | Move Zeros | bevy-move-zeros | ~ |  | scaffold |
 | 18 | Remove Duplicates | bevy-remove-dups |  | sorted input |  |
 | 19 | Sliding Window Max | bevy-sliding-max |  | N=12 | deque |
 | 20 | Longest Substr No Repeat | bevy-lsw |  |  |  |
