@@ -15,6 +15,9 @@ Existing
 - [x] 61) BFS (grid) – crate: bevy-bfs
 
 In progress
+- [~] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare (scaffold)
+- [~] 10) Heap Sort – crate: bevy-heap-sort (scaffold)
+- [~] 11) Counting Sort – crate: bevy-counting-sort (scaffold)
 - [~] 47) BST Insert/Delete – crate: bevy-bst-insert-delete (scaffold)
 - [~] 48) Validate BST – crate: bevy-bst-validate (scaffold)
 - [~] 49) Level Order Traversal – crate: bevy-level-order-bfs (scaffold)
@@ -37,9 +40,6 @@ In progress
 - [~] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
 
 Queue (next up)
-- [ ] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare
-- [ ] 10) Heap Sort – crate: bevy-heap-sort
-- [ ] 11) Counting Sort – crate: bevy-counting-sort
 - [ ] 12) Radix Sort (LSD) – crate: bevy-radix-lsd
 
 Tracker (first 25 entries shown; continue for all 100)
@@ -54,9 +54,9 @@ Tracker (first 25 entries shown; continue for all 100)
 | 6 | Shell Sort | bevy-shell-sort | x | N=20 | gaps: N/2 -> 1 |
 | 7 | Merge Sort | bevy-merge-sort | x | N=16 | bottom-up runs |
 | 8 | Quick Sort (Lomuto) | bevy-quicksort-lomuto | x | N=16 | partition pointers |
-| 9 | Quick Sort (Hoare) | bevy-quicksort-hoare |  | N=16 |  |
-| 10 | Heap Sort | bevy-heap-sort |  | N=16 | heapify + pop |
-| 11 | Counting Sort | bevy-counting-sort |  | N<=20 | small domain |
+| 9 | Quick Sort (Hoare) | bevy-quicksort-hoare | ~ | N=16 | scaffold |
+| 10 | Heap Sort | bevy-heap-sort | ~ | N=16 | scaffold |
+| 11 | Counting Sort | bevy-counting-sort | ~ | N<=20 | scaffold |
 | 12 | Radix Sort (LSD) | bevy-radix-lsd |  | base 10 | buckets 0..9 |
 | 13 | Bucket Sort | bevy-bucket-sort |  |  |  |
 | 14 | Dutch National Flag | bevy-dnf |  |  | 3-way partition |
