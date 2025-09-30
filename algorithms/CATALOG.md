@@ -98,7 +98,7 @@ Greedy
 Dynamic Programming (1D/2D)
 78) Fibonacci (memo vs tab) [H]
 79) Climbing Stairs (paths)
-80) Coin Change (min coins) [H]
+80) Coin Change (mixn coins) [H]
 81) Longest Increasing Subsequence (patience piles) [H]
 82) Edit Distance (matrix) [H]
 83) 0/1 Knapsack (table fill)
@@ -127,5 +127,5 @@ Advanced/Bonus
 100) Segment Tree (range query/update) [H]
 
 Notes
-- Items 1, 46, and 61 already have working crates. Link them in CHECKLIST.md.
+- Items 1, 46, 61, 78, and 79 already have working crates. Link them in CHECKLIST.md.
 - Prefer grid/array visualizations early to maximize reuse of patterns.

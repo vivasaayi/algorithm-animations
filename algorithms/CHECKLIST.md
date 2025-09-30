@@ -9,8 +9,21 @@ Existing
 - [x] 4) Cocktail Shaker Sort – crate: bevy-cocktail-sort
 - [x] 5) Gnome Sort – crate: bevy-gnome-sort
 - [x] 6) Shell Sort – crate: bevy-shell-sort
+- [x] 78) Fibonacci (memo vs tab) – crate: bevy-fibonacci-dp
+- [x] 79) Climbing Stairs – crate: bevy-climbing-stairs
 - [x] 46) BST Search – crate: bevy-bst
 - [x] 61) BFS (grid) – crate: bevy-bfs
+
+In progress
+- [~] 47) BST Insert/Delete – crate: bevy-bst-insert-delete (scaffold)
+- [~] 48) Validate BST – crate: bevy-bst-validate (scaffold)
+- [~] 49) Level Order Traversal – crate: bevy-level-order-bfs (scaffold)
+- [~] 50) Zigzag Level Order – crate: bevy-zigzag-level (scaffold)
+- [~] 51) LCA (BST) – crate: bevy-lca-bst (scaffold)
+- [~] 52) LCA (Binary Tree) – crate: bevy-lca-binary-tree (scaffold)
+- [~] 53) Serialize/Deserialize Binary Tree – crate: bevy-serialize-binary-tree (scaffold)
+- [~] 54) Trie Insert/Search – crate: bevy-trie-insert-search (scaffold)
+- [~] 55) Word Search II – crate: bevy-word-search-ii (scaffold)
 
 Queue (next up)
 - [ ] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare
@@ -47,5 +60,7 @@ Tracker (first 25 entries shown; continue for all 100)
 | 23 | Interval Merge | bevy-interval-merge |  |  | sort+merge |
 | 24 | Insert Interval | bevy-insert-interval |  |  |  |
 | 25 | Rotate Array | bevy-rotate-array | x | N=12, k=4 | three reversals |
+| 78 | Fibonacci (memo vs tab) | bevy-fibonacci-dp | x | N=7 | memo & tab sweep |
+| 79 | Climbing Stairs | bevy-climbing-stairs | x | N=8 | 1-2 step bottom-up |
 
 Continue the table for all 100 per CATALOG.md.
