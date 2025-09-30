@@ -24,6 +24,17 @@ In progress
 - [~] 53) Serialize/Deserialize Binary Tree – crate: bevy-serialize-binary-tree (scaffold)
 - [~] 54) Trie Insert/Search – crate: bevy-trie-insert-search (scaffold)
 - [~] 55) Word Search II – crate: bevy-word-search-ii (scaffold)
+- [~] 62) DFS (grid) – crate: bevy-dfs-grid (scaffold)
+- [~] 63) Connected Components – crate: bevy-connected-components (scaffold)
+- [~] 64) Directed Cycle Detection – crate: bevy-directed-cycle (scaffold)
+- [~] 65) Topological Sort (Kahn) – crate: bevy-toposort-kahn (scaffold)
+- [~] 66) Dijkstra (grid weights) – crate: bevy-dijkstra-grid (scaffold)
+- [~] 67) Bellman-Ford – crate: bevy-bellman-ford (scaffold)
+- [~] 68) Floyd–Warshall – crate: bevy-floyd-warshall (scaffold)
+- [~] 69) A* Pathfinding – crate: bevy-a-star (scaffold)
+- [~] 70) Kruskal MST – crate: bevy-kruskal (scaffold)
+- [~] 71) Prim MST – crate: bevy-prim (scaffold)
+- [~] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
 
 Queue (next up)
 - [ ] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare
