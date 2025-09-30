@@ -31,6 +31,21 @@ In progress
 - [~] 22) Three Sum – crate: bevy-three-sum (scaffold)
 - [~] 23) Interval Merge – crate: bevy-interval-merge (scaffold)
 - [~] 24) Insert Interval – crate: bevy-insert-interval (scaffold)
+- [~] 26) Reverse Linked List – crate: bevy-reverse-ll (scaffold)
+- [~] 27) Detect Cycle – crate: bevy-detect-cycle (scaffold)
+- [~] 28) Merge Two Sorted Lists – crate: bevy-merge-two-lists (scaffold)
+- [~] 29) Reorder List – crate: bevy-reorder-list (scaffold)
+- [~] 30) Remove Nth From End – crate: bevy-remove-nth (scaffold)
+- [~] 31) Add Two Numbers – crate: bevy-add-two-numbers (scaffold)
+- [~] 32) Sort a Linked List – crate: bevy-sort-ll (scaffold)
+- [~] 33) LRU Cache – crate: bevy-lru-cache (scaffold)
+- [~] 34) Copy List With Random Pointer – crate: bevy-copy-random-pointer (scaffold)
+- [~] 35) Reverse Nodes in k-Group – crate: bevy-k-group-reverse (scaffold)
+- [~] 36) Valid Parentheses – crate: bevy-valid-parentheses (scaffold)
+- [~] 37) Min Stack – crate: bevy-min-stack (scaffold)
+- [~] 38) Daily Temperatures – crate: bevy-daily-temps (scaffold)
+- [~] 39) Evaluate Reverse Polish Notation – crate: bevy-rpn (scaffold)
+- [~] 40) Generate Parentheses – crate: bevy-generate-parentheses (scaffold)
 - [~] 47) BST Insert/Delete – crate: bevy-bst-insert-delete (scaffold)
 - [~] 48) Validate BST – crate: bevy-bst-validate (scaffold)
 - [~] 49) Level Order Traversal – crate: bevy-level-order-bfs (scaffold)
@@ -52,8 +67,8 @@ In progress
 - [~] 71) Prim MST – crate: bevy-prim (scaffold)
 - [~] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
 
-Queue (next up)
-- [ ] 26) Reverse Linked List – crate: bevy-reverse-ll
+ Queue (next up)
+- [ ] 41) Combination Sum – crate: bevy-combination-sum
 
 Tracker (first 25 entries shown; continue for all 100)
 
@@ -83,6 +98,14 @@ Tracker (first 25 entries shown; continue for all 100)
 | 22 | Three Sum | bevy-three-sum | ~ |  | scaffold |
 | 23 | Interval Merge | bevy-interval-merge | ~ |  | scaffold |
 | 24 | Insert Interval | bevy-insert-interval | ~ |  | scaffold |
+| 26 | Reverse Linked List | bevy-reverse-ll | ~ |  | scaffold |
+| 27 | Detect Cycle | bevy-detect-cycle | ~ |  | scaffold |
+| 28 | Merge Two Sorted Lists | bevy-merge-two-lists | ~ |  | scaffold |
+| 29 | Reorder List | bevy-reorder-list | ~ |  | scaffold |
+| 30 | Remove Nth From End | bevy-remove-nth | ~ |  | scaffold |
+| 31 | Add Two Numbers | bevy-add-two-numbers | ~ |  | scaffold |
+| 32 | Sort a Linked List | bevy-sort-ll | ~ |  | scaffold |
+| 33 | LRU Cache | bevy-lru-cache | ~ |  capacity=3 | scaffold |
 | 25 | Rotate Array | bevy-rotate-array | x | N=12, k=4 | three reversals |
 | 78 | Fibonacci (memo vs tab) | bevy-fibonacci-dp | x | N=7 | memo & tab sweep |
 | 79 | Climbing Stairs | bevy-climbing-stairs | x | N=8 | 1-2 step bottom-up |
