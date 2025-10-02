@@ -16,7 +16,7 @@ Existing
 
 In progress
 - [~] 9) Quick Sort (Hoare) – crate: bevy-quicksort-hoare (scaffold)
-- [~] 10) Heap Sort – crate: bevy-heap-sort (scaffold)
+- [x] 10) Heap Sort – crate: bevy-heap-sort (completed)
 - [~] 11) Counting Sort – crate: bevy-counting-sort (scaffold)
 - [~] 12) Radix Sort (LSD) – crate: bevy-radix-lsd (scaffold)
 - [~] 13) Bucket Sort – crate: bevy-bucket-sort (scaffold)
@@ -101,7 +101,7 @@ Tracker (first 25 entries shown; continue for all 100)
 | 7 | Merge Sort | bevy-merge-sort | x | N=16 | bottom-up runs |
 | 8 | Quick Sort (Lomuto) | bevy-quicksort-lomuto | x | N=16 | partition pointers |
 | 9 | Quick Sort (Hoare) | bevy-quicksort-hoare | ~ | N=16 | scaffold |
-| 10 | Heap Sort | bevy-heap-sort | ~ | N=16 | scaffold |
+| 10 | Heap Sort | bevy-heap-sort | x | N=16 | completed |
 | 11 | Counting Sort | bevy-counting-sort | ~ | N<=20 | scaffold |
 | 12 | Radix Sort (LSD) | bevy-radix-lsd | ~ | base 10 | scaffold |
 | 13 | Bucket Sort | bevy-bucket-sort | ~ |  | scaffold |
