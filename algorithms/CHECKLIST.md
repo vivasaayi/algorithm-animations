@@ -46,29 +46,39 @@ In progress
 - [~] 38) Daily Temperatures – crate: bevy-daily-temps (scaffold)
 - [~] 39) Evaluate Reverse Polish Notation – crate: bevy-rpn (scaffold)
 - [~] 40) Generate Parentheses – crate: bevy-generate-parentheses (scaffold)
-- [~] 47) BST Insert/Delete – crate: bevy-bst-insert-delete (scaffold)
-- [~] 48) Validate BST – crate: bevy-bst-validate (scaffold)
-- [~] 49) Level Order Traversal – crate: bevy-level-order-bfs (scaffold)
-- [~] 50) Zigzag Level Order – crate: bevy-zigzag-level (scaffold)
-- [~] 51) LCA (BST) – crate: bevy-lca-bst (scaffold)
-- [~] 52) LCA (Binary Tree) – crate: bevy-lca-binary-tree (scaffold)
-- [~] 53) Serialize/Deserialize Binary Tree – crate: bevy-serialize-binary-tree (scaffold)
-- [~] 54) Trie Insert/Search – crate: bevy-trie-insert-search (scaffold)
-- [~] 55) Word Search II – crate: bevy-word-search-ii (scaffold)
-- [~] 62) DFS (grid) – crate: bevy-dfs-grid (scaffold)
-- [~] 63) Connected Components – crate: bevy-connected-components (scaffold)
-- [~] 64) Directed Cycle Detection – crate: bevy-directed-cycle (scaffold)
-- [~] 65) Topological Sort (Kahn) – crate: bevy-toposort-kahn (scaffold)
-- [~] 66) Dijkstra (grid weights) – crate: bevy-dijkstra-grid (scaffold)
-- [~] 67) Bellman-Ford – crate: bevy-bellman-ford (scaffold)
-- [~] 68) Floyd–Warshall – crate: bevy-floyd-warshall (scaffold)
-- [~] 69) A* Pathfinding – crate: bevy-a-star (scaffold)
-- [~] 70) Kruskal MST – crate: bevy-kruskal (scaffold)
+- [~] 41) Sliding Window Median – crate: bevy-sliding-window-median (scaffold)
+- [x] 42) Queue Using Two Stacks – crate: bevy-two-stack-queue (scaffold)
+- [x] 43) Stack Using Two Queues – crate: bevy-two-queue-stack (scaffold)
+- [x] 44) Largest Rectangle in Histogram – crate: bevy-largest-rect-histogram (scaffold)
+- [x] 45) Car Fleet – crate: bevy-car-fleet (scaffold)
+- [x] 47) BST Insert/Delete – crate: bevy-bst-insert-delete (scaffold)
+- [x] 48) Validate BST – crate: bevy-validate-bst (scaffold)
+- [x] 49) Level Order Traversal – crate: bevy-level-order-traversal (scaffold)
+- [x] 50) Zigzag Level Order – crate: bevy-zigzag-level-order (scaffold)
+- [x] 51) LCA (BST) – crate: bevy-lca-bst (scaffold)
+- [x] 52. LCA Binary Tree
+- [x] 53. Serialize and Deserialize Binary Tree
+- [x] 54. Trie Insert/Search
+- [x] 55. Word Search II
+- [x] 56. Binary Heap
+- [x] 57. Kth Largest Element
+- [x] 58. Top K Frequent Elements
+- [x] 59. Merge K Sorted Lists
+- [x] 60. Task Scheduler
+- [x] 62) DFS (grid) – crate: bevy-dfs-grid (scaffold)
+- [x] 63) Connected Components – crate: bevy-connected-components (scaffold)
+- [x] 64) Directed Cycle Detection – crate: bevy-directed-cycle (scaffold)
+- [x] 65) Topological Sort (Kahn) – crate: bevy-toposort-kahn (scaffold)
+- [x] 66) Dijkstra (grid weights) – crate: bevy-dijkstra-grid (scaffold)
+- [x] 67) Bellman-Ford – crate: bevy-bellman-ford (scaffold)
+- [x] 68) Floyd–Warshall – crate: bevy-floyd-warshall (scaffold)
+- [x] 69) A* Pathfinding – crate: bevy-a-star (scaffold)
+- [x] 70) Kruskal MST – crate: bevy-kruskal (scaffold)
 - [~] 71) Prim MST – crate: bevy-prim (scaffold)
 - [~] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
 
  Queue (next up)
-- [ ] 41) Combination Sum – crate: bevy-combination-sum
+- [ ] 43) Stack Using Two Queues – crate: bevy-two-queue-stack
 
 Tracker (first 25 entries shown; continue for all 100)
 

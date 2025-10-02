@@ -1,45 +1,138 @@
 use bevy::prelude::*;
+use std::collections::HashMap;
 
 const TITLE: &str = "LCA Binary Tree";
-const BG_COLOR: Color = Color::srgb(0.02, 0.03, 0.07);
+const BG_COLOR: Color = Color::srgb(0.1, 0.1, 0.1);
+const NODE_RADIUS: f32 = 25.0;
 
 #[derive(Component)]
-struct StackFrame;
+struct TreeNode {
+    value: i32,
+    is_target: bool,
+    is_lca: bool,
+}
+
+#[derive(Resource)]
+struct State {
+    tree: HashMap<i32, (Option<i32>, Option<i32>)>,
+    node1: i32,
+    node2: i32,
+    lca: i32,
+}
 
 fn main() {
+    let mut tree = HashMap::new();
+    tree.insert(3, (Some(5), Some(1)));
+    tree.insert(5, (Some(6), Some(2)));
+    tree.insert(1, (Some(0), Some(8)));
+    tree.insert(6, (None, None));
+    tree.insert(2, (None, None));
+    tree.insert(0, (None, None));
+    tree.insert(8, (None, None));
+
+    let node1 = 6;
+    let node2 = 2;
+    let lca = find_lca(&tree, 3, node1, node2);
+
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
-                title: format!("Bevy {TITLE}").into(),
-                resolution: (900.0, 640.0).into(),
-                resizable: false,
+                title: TITLE.into(),
+                resolution: (900., 600.).into(),
                 ..default()
             }),
             ..default()
         }))
         .insert_resource(ClearColor(BG_COLOR))
+        .insert_resource(State { tree, node1, node2, lca })
         .add_systems(Startup, setup)
+        .add_systems(Update, ui)
         .run();
 }
 
-fn setup(mut commands: Commands) {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>, state: Res<State>) {
     commands.spawn(Camera2dBundle::default());
 
-    // Placeholder stack frames to hint at recursion visualization
-    for i in 0..5 {
+    // Spawn nodes
+    let mut positions = HashMap::new();
+    assign_positions(&state.tree, 3, 0.0, 200.0, 0, &mut positions);
+
+    for (&val, _) in &state.tree {
+        let pos = positions[&val];
+        let is_target = val == state.node1 || val == state.node2;
+        let is_lca = val == state.lca;
         commands.spawn((
             SpriteBundle {
                 sprite: Sprite {
-                    color: Color::srgba(0.4, 0.6, 1.0, 0.2 + i as f32 * 0.1),
-                    custom_size: Some(Vec2::new(180.0, 36.0)),
+                    color: if is_lca { Color::srgb(0.8, 0.2, 0.2) } else if is_target { Color::srgb(0.8, 0.8, 0.2) } else { Color::srgb(0.5, 0.5, 0.5) },
+                    custom_size: Some(Vec2::new(NODE_RADIUS * 2.0, NODE_RADIUS * 2.0)),
                     ..default()
                 },
-                transform: Transform::from_xyz(320.0, 220.0 - i as f32 * 46.0, 0.0),
+                transform: Transform::from_xyz(pos.0, pos.1, 0.0),
                 ..default()
             },
-            StackFrame,
-        ));
+            TreeNode { value: val, is_target, is_lca },
+        )).with_children(|parent| {
+            parent.spawn(Text2dBundle {
+                text: Text::from_section(val.to_string(), TextStyle {
+                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                    font_size: 16.0,
+                    color: Color::BLACK,
+                }),
+                transform: Transform::from_xyz(0.0, 0.0, 1.0),
+                ..default()
+            });
+        });
     }
 
-    info!("LCA Binary Tree scaffold running. Replace stack frame placeholders with full traversal visualization.");
+    // LCA text
+    commands.spawn(Text2dBundle {
+        text: Text::from_section(format!("LCA of {} and {} is {}", state.node1, state.node2, state.lca), TextStyle {
+            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+            font_size: 20.0,
+            color: Color::WHITE,
+        }),
+        transform: Transform::from_xyz(0.0, -200.0, 1.0),
+        ..default()
+    });
+}
+
+fn find_lca(tree: &HashMap<i32, (Option<i32>, Option<i32>)>, root: i32, p: i32, q: i32) -> i32 {
+    if root == p || root == q { return root; }
+    let (left, right) = tree[&root];
+    let left_lca = left.and_then(|l| Some(find_lca(tree, l, p, q))).unwrap_or(-1);
+    let right_lca = right.and_then(|r| Some(find_lca(tree, r, p, q))).unwrap_or(-1);
+    if left_lca != -1 && right_lca != -1 { return root; }
+    if left_lca != -1 { left_lca } else { right_lca }
+}
+
+fn assign_positions(
+    tree: &HashMap<i32, (Option<i32>, Option<i32>)>,
+    node: i32,
+    x: f32,
+    y: f32,
+    depth: usize,
+    positions: &mut HashMap<i32, (f32, f32)>,
+) {
+    if !tree.contains_key(&node) { return; }
+    positions.insert(node, (x, y));
+    let child_y = y - 80.0;
+    if let Some(left) = tree[&node].0 {
+        assign_positions(tree, left, x - 100.0 / (depth as f32 + 1.0), child_y, depth + 1, positions);
+    }
+    if let Some(right) = tree[&node].1 {
+        assign_positions(tree, right, x + 100.0 / (depth as f32 + 1.0), child_y, depth + 1, positions);
+    }
+}
+
+fn ui(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn(Text2dBundle {
+        text: Text::from_section("LCA Binary Tree", TextStyle {
+            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+            font_size: 16.0,
+            color: Color::WHITE,
+        }),
+        transform: Transform::from_xyz(-350.0, 250.0, 1.0),
+        ..default()
+    });
 }

@@ -1,6 +1,6 @@
 # Bevy Serialize/Deserialize Binary Tree
 
-Scaffold crate for animating binary tree serialization and reconstruction. The current scene is a placeholder so you can iterate on algorithm steps incrementally.
+Visualizes binary tree serialization using preorder traversal and deserialization back to tree. Shows the tree nodes, serialized string representation, and reconstruction process.
 
 ## Run
 

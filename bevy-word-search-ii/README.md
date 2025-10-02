@@ -1,6 +1,6 @@
 # Bevy Word Search II
 
-Scaffold crate for animating the Word Search II algorithm (trie + backtracking). The placeholder scene renders grid and list markers so you can layer in gameplay logic later while keeping the crate runnable.
+Visualizes Word Search II algorithm using trie for word lookup and backtracking to find words in a 2D grid. Shows grid cells, found words, and search paths.
 
 ## Run
 

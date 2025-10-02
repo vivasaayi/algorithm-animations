@@ -1,6 +1,6 @@
 # Bevy Trie Insert/Search
 
-Placeholder crate for animating trie insertion and lookup. It currently renders staging sprites so you can progressively build the full interaction loop while keeping `cargo run` working.
+Visualizes trie data structure with node insertion and word search operations. Shows trie nodes as circles with character labels, and animates traversal during insert/search.
 
 ## Run
 

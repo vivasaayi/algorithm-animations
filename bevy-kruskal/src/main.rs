@@ -1,91 +1,204 @@
 use bevy::prelude::*;
+use std::collections::HashMap;
 
 const TITLE: &str = "Kruskal MST";
 const BG_COLOR: Color = Color::srgb(0.03, 0.03, 0.07);
 
 #[derive(Component)]
-struct GraphNode;
+struct GraphNode {
+    id: usize,
+}
 
 #[derive(Component)]
-struct EdgeBar;
+struct GraphEdge {
+    from: usize,
+    to: usize,
+    weight: usize,
+    in_mst: bool,
+}
 
-#[derive(Component)]
-struct SetBox;
+#[derive(Resource)]
+struct AppState {
+    graph: HashMap<usize, Vec<(usize, usize)>>, // to, weight
+    mst_edges: Vec<(usize, usize)>,
+}
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
                 title: format!("Bevy {TITLE}").into(),
-                resolution: (900.0, 640.0).into(),
+                resolution: (1000.0, 800.0).into(),
                 resizable: false,
                 ..default()
             }),
             ..default()
         }))
         .insert_resource(ClearColor(BG_COLOR))
+        .insert_resource(AppState {
+            graph: sample_graph(),
+            mst_edges: kruskal_mst(&sample_graph()),
+        })
         .add_systems(Startup, setup)
         .run();
 }
 
-fn setup(mut commands: Commands) {
+fn sample_graph() -> HashMap<usize, Vec<(usize, usize)>> {
+    let mut graph = HashMap::new();
+    graph.insert(0, vec![(1, 4), (3, 1)]);
+    graph.insert(1, vec![(2, 2), (3, 3)]);
+    graph.insert(2, vec![(4, 5), (5, 6)]);
+    graph.insert(3, vec![(4, 7)]);
+    graph.insert(4, vec![(5, 8)]);
+    graph.insert(5, vec![]);
+    graph
+}
+
+fn kruskal_mst(graph: &HashMap<usize, Vec<(usize, usize)>>) -> Vec<(usize, usize)> {
+    let mut edges: Vec<(usize, usize, usize)> = graph.iter().flat_map(|(&from, neighbors)| {
+        neighbors.iter().map(move |&(to, weight)| (weight, from, to))
+    }).collect();
+    edges.sort();
+
+    let mut parent: Vec<usize> = (0..6).collect();
+    let mut mst = Vec::new();
+
+    fn find(parent: &mut Vec<usize>, i: usize) -> usize {
+        if parent[i] != i {
+            parent[i] = find(parent, parent[i]);
+        }
+        parent[i]
+    }
+
+    for (weight, u, v) in edges {
+        let set_u = find(&mut parent, u);
+        let set_v = find(&mut parent, v);
+        if set_u != set_v {
+            mst.push((u, v));
+            parent[set_u] = set_v;
+        }
+    }
+    mst
+}
+
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>, state: Res<AppState>) {
     commands.spawn(Camera2dBundle::default());
 
-    let node_positions = [
-        Vec2::new(-260.0, 160.0),
-        Vec2::new(-80.0, 200.0),
-        Vec2::new(140.0, 180.0),
-        Vec2::new(-200.0, 20.0),
-        Vec2::new(0.0, -20.0),
-        Vec2::new(200.0, 20.0),
+    let positions = [
+        Vec2::new(-200.0, 100.0),
+        Vec2::new(0.0, 150.0),
+        Vec2::new(200.0, 100.0),
+        Vec2::new(-100.0, -50.0),
+        Vec2::new(100.0, -50.0),
+        Vec2::new(0.0, -150.0),
     ];
 
-    for pos in node_positions {
+    // Nodes
+    for (id, &pos) in positions.iter().enumerate() {
         commands.spawn((
             SpriteBundle {
                 sprite: Sprite {
                     color: Color::srgb(0.25, 0.55, 0.95),
-                    custom_size: Some(Vec2::new(48.0, 48.0)),
+                    custom_size: Some(Vec2::new(50.0, 50.0)),
                     ..default()
                 },
                 transform: Transform::from_xyz(pos.x, pos.y, 0.0),
                 ..default()
             },
-            GraphNode,
-        ));
-    }
-
-    // sorted edges bar list on the left
-    for i in 0..7 {
-        commands.spawn((
-            SpriteBundle {
-                sprite: Sprite {
-                    color: Color::srgba(0.95, 0.65, 0.2, 0.2 + i as f32 * 0.08),
-                    custom_size: Some(Vec2::new(160.0, 36.0)),
-                    ..default()
-                },
-                transform: Transform::from_xyz(-320.0, 180.0 - i as f32 * 44.0, 0.0),
+            GraphNode { id },
+            Text2dBundle {
+                text: Text::from_section(
+                    format!("{}", id),
+                    TextStyle {
+                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font_size: 20.0,
+                        color: Color::srgb(0.0, 0.0, 0.0),
+                    },
+                ),
+                transform: Transform::from_xyz(pos.x, pos.y, 1.0),
                 ..default()
             },
-            EdgeBar,
         ));
     }
 
-    // disjoint-set boxes along bottom
-    for i in 0..6 {
-        commands.spawn((
-            SpriteBundle {
-                sprite: Sprite {
-                    color: Color::srgba(0.2, 0.8, 0.4, 0.25),
-                    custom_size: Some(Vec2::new(80.0, 60.0)),
+    // Edges
+    for (&from, neighbors) in &state.graph {
+        for &(to, weight) in neighbors {
+            let start = positions[from];
+            let end = positions[to];
+            let dir = (end - start).normalize();
+            let length = (end - start).length();
+            let midpoint = start + dir * length / 2.0;
+            let angle = dir.y.atan2(dir.x);
+            let in_mst = state.mst_edges.contains(&(from, to)) || state.mst_edges.contains(&(to, from));
+            let color = if in_mst {
+                Color::srgb(0.0, 1.0, 0.0)
+            } else {
+                Color::srgb(0.7, 0.7, 0.7)
+            };
+            commands.spawn((
+                SpriteBundle {
+                    sprite: Sprite {
+                        color,
+                        custom_size: Some(Vec2::new(length - 60.0, 4.0)),
+                        ..default()
+                    },
+                    transform: Transform {
+                        translation: Vec3::new(midpoint.x, midpoint.y, -0.1),
+                        rotation: Quat::from_rotation_z(angle),
+                        ..default()
+                    },
                     ..default()
                 },
-                transform: Transform::from_xyz(-220.0 + i as f32 * 90.0, -220.0, 0.0),
+                GraphEdge {
+                    from,
+                    to,
+                    weight,
+                    in_mst,
+                },
+            ));
+            // Arrow head
+            let arrow_pos = end - dir * 30.0;
+            commands.spawn(SpriteBundle {
+                sprite: Sprite {
+                    color,
+                    custom_size: Some(Vec2::new(20.0, 20.0)),
+                    ..default()
+                },
+                transform: Transform {
+                    translation: Vec3::new(arrow_pos.x, arrow_pos.y, -0.05),
+                    rotation: Quat::from_rotation_z(angle),
+                    ..default()
+                },
                 ..default()
-            },
-            SetBox,
-        ));
+            });
+            // Weight label
+            commands.spawn(Text2dBundle {
+                text: Text::from_section(
+                    format!("{}", weight),
+                    TextStyle {
+                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font_size: 16.0,
+                        color: Color::srgb(0.9, 0.9, 0.9),
+                    },
+                ),
+                transform: Transform::from_xyz(midpoint.x, midpoint.y + 20.0, 1.0),
+                ..default()
+            });
+        }
     }
 
-    info!("Kruskal MST scaffold ready. Replace placeholders with edge sorting and union-find visuals.");
+    // Instructions
+    commands.spawn(Text2dBundle {
+        text: Text::from_section(
+            "Kruskal MST: Sort edges by weight, add if no cycle (union-find)\nGreen edges form the minimum spanning tree",
+            TextStyle {
+                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                font_size: 16.0,
+                color: Color::srgb(0.9, 0.9, 0.9),
+            },
+        ),
+        transform: Transform::from_xyz(0.0, -350.0, 0.0),
+        ..default()
+    });
 }

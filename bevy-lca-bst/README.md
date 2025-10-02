@@ -1,9 +1,7 @@
-# Bevy LCA (BST)
+# Bevy LCA BST
 
-Skeleton crate for visualizing the Lowest Common Ancestor query on a Binary Search Tree. The placeholder scene renders colored nodes as a staging ground for full animation work.
+Visualization of finding the lowest common ancestor in a binary search tree.
 
-## Launch
+Run with: `cargo run`
 
-```
-cargo run
-```
+Scene: BST nodes with edges, two target nodes highlighted in yellow, LCA highlighted in red, path from root to LCA shown.

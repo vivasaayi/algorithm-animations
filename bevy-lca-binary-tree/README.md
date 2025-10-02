@@ -1,9 +1,7 @@
-# Bevy LCA (Binary Tree)
+# Bevy LCA Binary Tree
 
-Initial scaffold for a Lowest Common Ancestor visualization on a generic binary tree. The crate currently renders simple placeholder sprites so the project builds and runs while core logic is in progress.
+Visualization of finding the lowest common ancestor in a binary tree.
 
-## Run locally
+Run with: `cargo run`
 
-```
-cargo run
-```
+Scene: Binary tree nodes with edges, two target nodes highlighted in yellow, LCA highlighted in red, result text.
