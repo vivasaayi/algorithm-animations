@@ -1,13 +1,16 @@
-# Bevy Permutations
+# Bevy Permutations [H]
 
-Animated permutation tree exploring every ordering of a small set using backtracking. Elements slide into position nodes as recursion dives and retracts.
+Visualizes the Permutations [H] algorithm.
 
+## Scene
+- Algorithm-specific visualization components
+- Step-by-step execution
+
+## Run
 ```bash
-cargo run --release
+cargo run
 ```
 
-### Controls
-
-- **Space / Left Click**: Pause/resume autoplay, or advance one step in manual mode.
-- **Auto Toggle**: Click the HUD button to switch between auto-play and manual stepping.
-- **Restart**: Once all permutations render, press space or click to reset.
+## Controls
+- Space: Start/pause animation
+- R: Reset

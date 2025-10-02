@@ -74,8 +74,16 @@ In progress
 - [x] 68) Floyd–Warshall – crate: bevy-floyd-warshall (scaffold)
 - [x] 69) A* Pathfinding – crate: bevy-a-star (scaffold)
 - [x] 70) Kruskal MST – crate: bevy-kruskal (scaffold)
-- [~] 71) Prim MST – crate: bevy-prim (scaffold)
-- [~] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
+- [x] 71) Prim MST – crate: bevy-prim (scaffold)
+- [x] 72) Union-Find Visualization – crate: bevy-union-find (scaffold)
+- [x] 73) Activity Selection – crate: bevy-activity-selection (scaffold)
+- [x] 74) Interval Scheduling (min rooms via sweep line) – crate: bevy-interval-scheduling (scaffold)
+- [x] 75) Gas Station (circular) – crate: bevy-gas-station (scaffold)
+- [x] 76) Jump Game II (layered greedy) – crate: bevy-jump-game-ii (scaffold)
+- [x] 77) Huffman Coding (tree build) [H] – crate: bevy-huffman (scaffold)
+- [x] 78) Fibonacci (memo vs tab) [H] – crate: bevy-fibonacci-dp (scaffold)
+- [x] 79) Climbing Stairs (paths) – crate: bevy-climbing-stairs (scaffold)
+- [x] 80) Coin Change (mixn coins) [H] – crate: bevy-coin-change (scaffold)
 
  Queue (next up)
 - [ ] 43) Stack Using Two Queues – crate: bevy-two-queue-stack
@@ -121,3 +129,31 @@ Tracker (first 25 entries shown; continue for all 100)
 | 79 | Climbing Stairs | bevy-climbing-stairs | x | N=8 | 1-2 step bottom-up |
 
 Continue the table for all 100 per CATALOG.md.
+
+Dynamic Programming (1D/2D)
+- [x] 81) Longest Increasing Subsequence (patience piles) [H] – crate: bevy-longest-increasing-subsequence (scaffold)
+- [x] 82) Edit Distance (matrix) [H] – crate: bevy-edit-distance (scaffold)
+- [x] 83) 0/1 Knapsack (table fill) – crate: bevy-knapsack (scaffold)
+- [x] 84) Palindromic Substrings (expand vs DP) – crate: bevy-palindromic-substrings (scaffold)
+- [x] 85) Longest Palindromic Subsequence – crate: bevy-longest-palindromic-subsequence (scaffold)
+- [x] 86) Matrix Chain Multiplication – crate: bevy-matrix-chain-multiplication (scaffold)
+- [x] 87) Word Break (DP) – crate: bevy-word-break (scaffold)
+
+Backtracking
+- [x] 88) Subsets (decision tree) – crate: bevy-subsets (scaffold)
+- [x] 89) Permutations [H] – crate: bevy-permutations (scaffold)
+- [x] 90) Combination Sum – crate: bevy-combination-sum (scaffold)
+- [x] 91) N-Queens [H] – crate: bevy-n-queens (scaffold)
+- [x] 92) Sudoku Solver (constraint backtracking) [H] – crate: bevy-sudoku-solver (scaffold)
+
+Geometry and Math
+- [x] 93) Convex Hull (Graham/Monotone Chain) [H] – crate: bevy-convex-hull (scaffold)
+- [x] 94) Line Sweep: Segment Intersections – crate: bevy-line-sweep (scaffold)
+- [x] 95) K-D Tree build/search – crate: bevy-kd-tree (scaffold)
+- [x] 96) FFT (butterfly stages) – crate: bevy-fft (scaffold)
+
+Advanced/Bonus
+- [x] 97) KMP String Search (LPS build + scan) [H] – crate: bevy-kmp (scaffold)
+- [x] 98) Rabin–Karp (rolling hash) – crate: bevy-rabin-karp (scaffold)
+- [x] 99) Boyer–Moore majority vote – crate: bevy-boyer-moore (scaffold)
+- [x] 100) Segment Tree (range query/update) [H] – crate: bevy-segment-tree (scaffold)

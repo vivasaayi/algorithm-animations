@@ -1,13 +1,16 @@
 # Bevy Combination Sum
 
-Visualizes the depth-first search for combination sum, showing branching include/reuse/exclude decisions on candidate numbers.
+Visualizes the Combination Sum algorithm.
 
+## Scene
+- Algorithm-specific visualization components
+- Step-by-step execution
+
+## Run
 ```bash
-cargo run --release
+cargo run
 ```
 
-### Controls
-
-- **Space / Left Click**: Pause/resume autoplay or advance one step when in manual mode.
-- **Auto Toggle**: Switch the top HUD button to play continuously or step manually.
-- **Restart**: When all combinations have been explored, press space or click to reset.
+## Controls
+- Space: Start/pause animation
+- R: Reset

@@ -1,3 +1,8 @@
 bevy-bubble-sort/target
 bevy-cocktail-sort/target/debug/.fingerprint/ab_glyph_rasterizer-99c89cc228407a26
 */target/*
+bevy-combination-sum/bevy-longest-increasing-subsequence/target
+bevy-n-queens/bevy-longest-increasing-subsequence/target
+bevy-permutations/bevy-longest-increasing-subsequence/target
+bevy-sudoku-solver/bevy-longest-increasing-subsequence/target
+bevy-subsets/bevy-longest-increasing-subsequence/target
