@@ -70,6 +70,19 @@ struct Settings {
     step_timer: Timer,
 }
 
+// Educational text components
+#[derive(Component)]
+struct ExplanationText;
+
+#[derive(Component)]
+struct AlgorithmTitle;
+
+#[derive(Component)]
+struct ProgressText;
+
+#[derive(Component)]
+struct StepExplanation;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -93,6 +106,7 @@ fn main() {
             animate_swaps,
             update_highlights,
             update_decision_overlay,
+            update_educational_text,
         ))
         .run();
 }
@@ -222,6 +236,85 @@ fn setup(
                 ResultBox,
             ));
         });
+
+    // Educational Text Overlays
+    // Algorithm title
+    commands.spawn((
+        TextBundle::from_section(
+            "Bubble Sort Algorithm",
+            TextStyle {
+                font_size: 32.0,
+                color: Color::srgb(1.0, 1.0, 1.0),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(10.0),
+            left: Val::Px(10.0),
+            ..default()
+        }),
+        AlgorithmTitle,
+    ));
+
+    // Progress information
+    commands.spawn((
+        TextBundle::from_section(
+            "Pass: 0 | Comparisons: 0 | Status: Ready",
+            TextStyle {
+                font_size: 18.0,
+                color: Color::srgb(0.9, 0.9, 0.9),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(50.0),
+            left: Val::Px(10.0),
+            ..default()
+        }),
+        ProgressText,
+    ));
+
+    // Step explanation
+    commands.spawn((
+        TextBundle::from_section(
+            "Click Space or tap to start sorting!\n\nBubble Sort repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.",
+            TextStyle {
+                font_size: 16.0,
+                color: Color::srgb(1.0, 1.0, 0.8),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(80.0),
+            left: Val::Px(10.0),
+            max_width: Val::Px(350.0),
+            ..default()
+        }),
+        StepExplanation,
+    ));
+
+    // Algorithm explanation
+    commands.spawn((
+        TextBundle::from_section(
+            "How Bubble Sort Works:\n• Each pass moves the largest element to the end\n• Like bubbles rising to the surface\n• Time Complexity: O(n²) - not efficient for large lists\n• Space Complexity: O(1) - sorts in place",
+            TextStyle {
+                font_size: 14.0,
+                color: Color::srgb(0.7, 0.9, 1.0),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            bottom: Val::Px(10.0),
+            left: Val::Px(10.0),
+            max_width: Val::Px(350.0),
+            ..default()
+        }),
+        ExplanationText,
+    ));
 }
 
 fn layout_x(i: usize, origin_x: f32) -> f32 {
@@ -412,6 +505,54 @@ fn update_decision_overlay(
         } else {
             *vis = Visibility::Hidden;
         }
+    }
+}
+
+fn update_educational_text(
+    sort: Res<SortState>,
+    mut text_params: ParamSet<(
+        Query<&mut Text, With<ProgressText>>,
+        Query<&mut Text, With<StepExplanation>>,
+    )>,
+) {
+    // Update progress text
+    if let Ok(mut progress_text) = text_params.p0().get_single_mut() {
+        let pass = sort.i + 1;
+        let comparisons = sort.i * N + sort.j + 1;
+        let status = if sort.sorted {
+            "Sorted! 🎉"
+        } else if sort.running {
+            "Running..."
+        } else if sort.swapping.is_some() || sort.pre_swap.is_some() {
+            "Swapping..."
+        } else {
+            "Paused"
+        };
+
+        progress_text.sections[0].value = format!("Pass: {} | Comparisons: {} | Status: {}", pass, comparisons, status);
+    }
+
+    // Update step explanation
+    if let Ok(mut step_text) = text_params.p1().get_single_mut() {
+        let explanation = if sort.sorted {
+            "🎉 Sorting complete! All elements are now in order.\n\nThe largest elements have 'bubbled' to the end of the array.\n\nPress Space to shuffle and try again!".to_string()
+        } else if let Some((a_idx, b_idx)) = sort.pending_swap_indices {
+            if sort.pre_swap.is_some() {
+                format!("Comparing elements at positions {} and {}:\n• Left: {} | Right: {}\n• Since {} > {}, we need to swap them!\n• The larger element will move right.", a_idx + 1, b_idx + 1, sort.array[a_idx], sort.array[b_idx], sort.array[a_idx], sort.array[b_idx])
+            } else {
+                "Preparing to compare adjacent elements...".to_string()
+            }
+        } else if sort.j < N - 1 - sort.i && sort.running {
+            format!("Pass {}: Comparing elements at positions {} and {}...\n\nIn bubble sort, we compare each pair of adjacent elements and swap if they're out of order.", sort.i + 1, sort.j + 1, sort.j + 2)
+        } else if sort.i < N - 1 && sort.running {
+            format!("Pass {} complete! The largest element is now at the end.\n\nStarting pass {}...", sort.i + 1, sort.i + 2)
+        } else if !sort.running && sort.i == 0 && sort.j == 0 {
+            "Click Space or tap to start sorting!\n\nBubble Sort repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.".to_string()
+        } else {
+            "Sorting in progress... Watch how elements bubble to their correct positions!".to_string()
+        };
+
+        step_text.sections[0].value = explanation;
     }
 }
 

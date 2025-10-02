@@ -9,6 +9,19 @@ const SPEED: f32 = 420.0;
 const PRE_HOLD: f32 = 0.3;
 const STEP_INTERVAL: f32 = 0.8;
 
+// Educational text components
+#[derive(Component)]
+struct ExplanationText;
+
+#[derive(Component)]
+struct AlgorithmTitle;
+
+#[derive(Component)]
+struct ProgressText;
+
+#[derive(Component)]
+struct StepExplanation;
+
 #[derive(Component, Copy, Clone)]
 struct Bar { index: usize, value: usize }
 #[derive(Component, Deref, DerefMut)]

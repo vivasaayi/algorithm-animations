@@ -10,6 +10,19 @@ const PRE_SWAP_DURATION: f32 = 0.35;
 const STEP_INTERVAL: f32 = 0.9; // slower cadence than bubble for clarity
 const DIGIT_COLOR: Color = Color::srgb(1.0, 1.0, 1.0);
 
+// Educational text components
+#[derive(Component)]
+struct ExplanationText;
+
+#[derive(Component)]
+struct AlgorithmTitle;
+
+#[derive(Component)]
+struct ProgressText;
+
+#[derive(Component)]
+struct StepExplanation;
+
 #[derive(Component, Debug, Clone, Copy)]
 struct Bar { index: usize, value: usize }
 #[derive(Component, Deref, DerefMut)]
@@ -58,6 +71,7 @@ fn main() {
             pre_swap_anim,
             animate_swaps,
             update_colors,
+            update_educational_text,
         ))
         .run();
 }
@@ -97,6 +111,85 @@ fn setup(mut commands: Commands, mut st: ResMut<SelState>) {
             p.spawn((ButtonBundle { style: Style { width: Val::Px(80.0), height: Val::Px(22.0), align_items: AlignItems::Center, padding: UiRect::all(Val::Px(2.0)), ..default() }, background_color: BackgroundColor(Color::srgba(0.2, 0.6, 1.0, 0.2)), ..default() }, AutoPlayButton))
                 .with_children(|btn| { btn.spawn((NodeBundle { style: Style { width: Val::Px(18.0), height: Val::Px(18.0), ..default() }, background_color: BackgroundColor(Color::srgb(0.2, 0.8, 0.4)), ..default() }, AutoKnob)); });
         });
+
+    // Educational Text Overlays
+    // Algorithm title
+    commands.spawn((
+        TextBundle::from_section(
+            "Selection Sort Algorithm",
+            TextStyle {
+                font_size: 32.0,
+                color: Color::srgb(1.0, 1.0, 1.0),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(10.0),
+            left: Val::Px(10.0),
+            ..default()
+        }),
+        AlgorithmTitle,
+    ));
+
+    // Progress information
+    commands.spawn((
+        TextBundle::from_section(
+            "Pass: 0 | Comparisons: 0 | Status: Ready",
+            TextStyle {
+                font_size: 18.0,
+                color: Color::srgb(0.9, 0.9, 0.9),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(50.0),
+            left: Val::Px(10.0),
+            ..default()
+        }),
+        ProgressText,
+    ));
+
+    // Step explanation
+    commands.spawn((
+        TextBundle::from_section(
+            "Click Space or tap to start sorting!\n\nSelection Sort finds the minimum element in the unsorted portion and swaps it with the first unsorted element.",
+            TextStyle {
+                font_size: 16.0,
+                color: Color::srgb(1.0, 1.0, 0.8),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(80.0),
+            left: Val::Px(10.0),
+            max_width: Val::Px(350.0),
+            ..default()
+        }),
+        StepExplanation,
+    ));
+
+    // Algorithm explanation
+    commands.spawn((
+        TextBundle::from_section(
+            "How Selection Sort Works:\n• Each pass finds the smallest remaining element\n• Swaps it with the first unsorted position\n• Time Complexity: O(n²) - Always quadratic\n• Space Complexity: O(1) - Sorts in place\n• Unstable sort - may change relative order",
+            TextStyle {
+                font_size: 14.0,
+                color: Color::srgb(0.7, 0.9, 1.0),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            bottom: Val::Px(10.0),
+            left: Val::Px(10.0),
+            max_width: Val::Px(350.0),
+            ..default()
+        }),
+        ExplanationText,
+    ));
 }
 
 fn layout_x(i: usize, origin_x: f32) -> f32 { origin_x + i as f32 * (BAR_WIDTH + BAR_GAP) }
@@ -240,6 +333,54 @@ fn update_colors(st: Res<SelState>, mut q: Query<(&Bar, &mut Sprite)>) {
             base
         };
         sprite.color = color;
+    }
+}
+
+fn update_educational_text(
+    st: Res<SelState>,
+    mut text_params: ParamSet<(
+        Query<&mut Text, With<ProgressText>>,
+        Query<&mut Text, With<StepExplanation>>,
+    )>,
+) {
+    // Update progress text
+    if let Ok(mut progress_text) = text_params.p0().get_single_mut() {
+        let pass = st.i + 1;
+        let comparisons = if st.sorted {
+            (N * (N - 1)) / 2 // total comparisons for selection sort
+        } else {
+            st.i * N + st.j - st.i * (st.i + 1) / 2 // approximate comparisons made so far
+        };
+        let status = if st.sorted {
+            "Sorted! 🎉"
+        } else if st.running {
+            "Running..."
+        } else if st.pre_swap.is_some() || st.swap_pair.is_some() {
+            "Swapping..."
+        } else {
+            "Paused"
+        };
+
+        progress_text.sections[0].value = format!("Pass: {} | Comparisons: {} | Status: {}", pass, comparisons, status);
+    }
+
+    // Update step explanation
+    if let Ok(mut step_text) = text_params.p1().get_single_mut() {
+        let explanation = if st.sorted {
+            "🎉 Sorting complete! All elements are now in order.\n\nSelection sort has placed each element in its correct position.\n\nPress Space to shuffle and try again!".to_string()
+        } else if st.pre_swap.is_some() {
+            format!("Found minimum element at position {} (value: {}).\n\nSwapping with position {} (value: {}).\n\nThe minimum element moves to its correct sorted position.", st.min_idx + 1, st.array[st.min_idx], st.i + 1, st.array[st.i])
+        } else if st.j > st.i {
+            format!("Pass {}: Scanning for minimum in unsorted portion.\n\nCurrently comparing: position {} (value: {}) with current minimum at position {} (value: {}).\n\nYellow = current minimum, White = currently comparing.", st.i + 1, st.j + 1, st.array[st.j], st.min_idx + 1, st.array[st.min_idx])
+        } else if st.i < N - 1 && st.running {
+            format!("Pass {} complete! Minimum element placed at position {}.\n\nStarting pass {} to find next minimum...", st.i + 1, st.i + 1, st.i + 2)
+        } else if !st.running && st.i == 0 && st.j == 0 {
+            "Click Space or tap to start sorting!\n\nSelection Sort finds the minimum element in the unsorted portion and swaps it with the first unsorted element.".to_string()
+        } else {
+            "Selection sort in progress... Finding the next minimum element.".to_string()
+        };
+
+        step_text.sections[0].value = explanation;
     }
 }
 

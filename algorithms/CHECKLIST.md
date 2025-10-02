@@ -157,3 +157,10 @@ Advanced/Bonus
 - [x] 98) Rabin–Karp (rolling hash) – crate: bevy-rabin-karp (scaffold)
 - [x] 99) Boyer–Moore majority vote – crate: bevy-boyer-moore (scaffold)
 - [x] 100) Segment Tree (range query/update) [H] – crate: bevy-segment-tree (scaffold)
+
+
+Remember:
+This is going to be an interactive simulation
+The simulation can be auto played
+I will conert this to educational videos. So we should explain the audience in each and every step
+We shuold make sur ethe user understands the algorithm
